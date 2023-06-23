@@ -1,29 +1,31 @@
 import React from "react";
 import RegisterForm from "../components/RegisterItems/RegisterForm";
 import { Box } from "@mui/material";
-import FormData from "form-data";
+import { useNavigate } from "react-router-dom";
+
 import apiClient from "../utils/client";
 
 const Register: React.FC = () => {
-  const data = new FormData();
+  const navigate = useNavigate();
   const handleSubmit = async (formData: any) => {
-    console.log(formData);
-    data.append("name", formData.name);
-    data.append("age", formData.age);
-    data.append("email", formData.email);
-    data.append("password", formData.password);
+    const data = {
+      name: formData.name,
+      age: formData.age,
+      email: formData.email,
+      password: formData.password,
+    };
 
     try {
-      await apiClient.post("signup", data).then((res) => {
+      await apiClient.post("auth/signup", data).then((res) => {
         console.log(res.data);
         // dispatch(setUserData(res.data));
-        // router.push('/');
-        // NotificationSuccess('Usuario registrado');
+
         alert("usuario registrado");
+        navigate("/login");
       });
     } catch (error) {
-      //   NotificationFailure('revise los campos');
       alert("revise los campos");
+      console.log(data);
       console.log(error);
     }
   };
