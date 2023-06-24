@@ -12,15 +12,18 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link /*useNavigate*/ } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hook";
+
 import {
   pagesDesk,
   pagesSettings,
   pagesMobile,
 } from "./NavItems/navigateLinks";
+import { setLogoutData } from "../redux/userSlice";
 
 function ResponsiveAppBar() {
-  // const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,6 +40,15 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  //*funciones para cerra sesión------------------
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(setLogoutData());
+    navigate("/login");
   };
 
   return (
@@ -149,10 +161,11 @@ function ResponsiveAppBar() {
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://www.pedigree.com.ar/cdn-cgi/image/format%3Dauto%2Cq%3D90/sites/g/files/fnmzdf1506/files/2022-07/hero-default-dog_0.png"
+                  src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg?w=2000"
                 />
               </IconButton>
             </Tooltip>
+            {/* --------------start settings menu---------------------- */}
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
@@ -169,7 +182,6 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* --------------start settings menu---------------------- */}
               {pagesSettings.map((setting) => (
                 <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
                   <Link
@@ -180,8 +192,13 @@ function ResponsiveAppBar() {
                   </Link>
                 </MenuItem>
               ))}
-              {/* --------------end settings menu---------------------- */}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={handleLogout}>
+                  Cerrar sesión
+                </Typography>
+              </MenuItem>
             </Menu>
+            {/* --------------end settings menu---------------------- */}
           </Box>
         </Toolbar>
       </Container>

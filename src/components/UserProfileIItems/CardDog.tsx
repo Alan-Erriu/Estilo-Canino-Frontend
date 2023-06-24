@@ -4,8 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import { DogDataState } from "../../types/dog";
 
-function CardDog() {
+function CardDog({ dog }: { dog: DogDataState }) {
   return (
     <Card sx={{ display: "flex" }}>
       <CardMedia
@@ -17,7 +18,7 @@ function CardDog() {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            Charly
+            {dog.name}
           </Typography>
 
           <Typography
@@ -25,23 +26,28 @@ function CardDog() {
             color="text.secondary"
             component="div"
           >
-            Raza:labrador
+            {dog.breed}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            edad: labrador
+            {dog.age}
           </Typography>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton aria-label="previous">Eliminar</IconButton>
+          <IconButton
+            aria-label="previous"
+            onClick={() => console.log(dog._id)}
+          >
+            Eliminar
+          </IconButton>
           <IconButton aria-label="play/pause">cortar pelo</IconButton>
-          <IconButton aria-label="next">Editar</IconButton>
         </Box>
       </Box>
     </Card>
   );
 }
+
 export default CardDog;
