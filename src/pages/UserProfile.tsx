@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUserData, getUserData } from "../redux/userSlice";
 import { useAppSelector } from "../redux/hook";
 import { DogDataState } from "../types/dog";
+
 const UserProfile = () => {
   const dispatch = useDispatch();
   const dataUser = useAppSelector(getUserData);
@@ -37,23 +38,29 @@ const UserProfile = () => {
           authToken: tokenLocalStorage,
           dogs: responseDog.data.dogs,
         };
-
+        console.log("user profile");
         dispatch(setUserData(dataUser));
-        // dispatch(setDogs(responseDog.data.dogs));
       } catch (error) {
         console.warn("El usuario debe iniciar sesión:", error.message);
-        // Manejar el error según tus necesidades, por ejemplo, mostrar un mensaje de error al usuario
       }
     };
 
     fetchData();
-  }, [dataUser]);
+  }, []); // Agrega dataUser.dogs como dependencia
 
   return (
     <Box>
       <Profile />
-      <Box sx={{ display: "flex", gap: 2, mt: "8rem", mx: "4rem" }}>
-        {dataUser.dogs.map((dog: DogDataState, i: Number) => (
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          mt: "8rem",
+          mx: "4rem",
+          flexDirection: "column",
+        }}
+      >
+        {dataUser.dogs.map((dog: DogDataState, i: number) => (
           <CardDog key={i.toString()} dog={dog} />
         ))}
       </Box>

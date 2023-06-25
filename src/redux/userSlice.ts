@@ -58,6 +58,6 @@ export const {
 } = userSlice.actions;
 
 export const getUserData = (state: RootState) => state.user;
-export const getDogs = (state: RootState) => state.user;
+export const getDogs = (state: RootState) => state.user.dogs;
 
 export default userSlice.reducer;

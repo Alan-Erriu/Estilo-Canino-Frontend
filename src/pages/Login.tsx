@@ -22,7 +22,6 @@ const Login = () => {
         alert("iniciaste sesion");
         navigate("/miperfil");
       });
-      console.log(data);
     } catch (error) {
       console.error(error);
     }
