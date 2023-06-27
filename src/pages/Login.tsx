@@ -23,7 +23,22 @@ const Login = () => {
         navigate("/miperfil");
       });
     } catch (error) {
-      console.error(error);
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+
+        if (errorMessage === "incorrect password") {
+          alert("Contraseña incorrecta");
+        } else if (errorMessage === "no user found") {
+          alert("El usuario no existe");
+        } else {
+          alert("Algo salió mal");
+        }
+
+        console.error(error);
+      } else {
+        alert("Error en la solicitud");
+        console.error(error);
+      }
     }
   };
 

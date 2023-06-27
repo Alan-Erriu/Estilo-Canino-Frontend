@@ -77,7 +77,7 @@ function Profile() {
           {userData.role ? userData.role : "Sin iniciar"}
         </Typography>
         <Button onClick={handleOpenModal}>Editar mi perfil</Button>
-        <DropDown />
+        {userData.role === "cliente" ? <DropDown /> : null}
       </CardContent>
       <ModalEditUser
         open={openModal}

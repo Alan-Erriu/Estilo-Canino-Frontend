@@ -9,3 +9,6 @@ export interface UserDataState {
     authToken?: string;
     dogs?: DogDataState[];
 }
+export interface UserState extends UserDataState {
+    dogs: DogDataState[];
+}

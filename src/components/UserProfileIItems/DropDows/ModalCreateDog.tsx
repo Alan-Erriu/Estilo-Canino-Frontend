@@ -29,6 +29,13 @@ function DropDown() {
 
   const handleCreateDog = async () => {
     try {
+      const dogAgeValue = parseInt(dogAge, 10); // Convertir la edad del perro a número
+
+      if (dogAgeValue <= 0 || isNaN(dogAgeValue)) {
+        alert("La edad del perro debe ser un número mayor a 0");
+        return;
+      }
+
       const data = {
         name: dogName,
         age: dogAge,
@@ -65,7 +72,7 @@ function DropDown() {
   };
 
   return (
-    <>
+    <div>
       <Button onClick={handleOpenModal}>Agregar perro</Button>
       <Dialog open={openModal} onClose={handleCloseModal}>
         <DialogTitle>Agregar un nuevo perro</DialogTitle>
@@ -97,7 +104,7 @@ function DropDown() {
           <Button onClick={handleCreateDog}>Guardar</Button>
         </DialogActions>
       </Dialog>
-    </>
+    </div>
   );
 }
 

@@ -1,8 +1,13 @@
 import { MenuItem, Select } from "@mui/material";
 import { useAppSelector } from "../../../redux/hook";
 import { getUserData } from "../../../redux/userSlice";
+import { getGroomerData } from "../../../redux/usersTypeGroomerSlice";
+
 const FilterByUser = () => {
-  //   const userData = useAppSelector(getUserData);
+  //recupero datos del usuario logeado/
+  const userData = useAppSelector(getUserData);
+  //recupero todos los usuarios tipo peluqueros
+  const allGroomersData = useAppSelector(getGroomerData);
   return (
     <Select
       variant="outlined"
@@ -11,15 +16,15 @@ const FilterByUser = () => {
       renderValue={(value) => (value ? value : "Seleccione un peluquero")}
     >
       <MenuItem value="" disabled>
-        {/* {userData.role == "cliente"
+        {userData.role == "cliente"
           ? "Selecione un peluquero"
-          
-          : "Selecione un cliente"} */}
-        Selecione un cliente
+          : "Selecione un cliente"}
       </MenuItem>
-      <MenuItem value="Sucursal 1">Peluquero 1</MenuItem>
-      <MenuItem value="Sucursal 2">Peluquero 2</MenuItem>
-      <MenuItem value="Sucursal 3">Peluquero 3</MenuItem>
+      {allGroomersData.groomers.map((groomer, i) => (
+        <MenuItem key={i} value={groomer.name}>
+          {groomer.name}
+        </MenuItem>
+      ))}
     </Select>
   );
 };

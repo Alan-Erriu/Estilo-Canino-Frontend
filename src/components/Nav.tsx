@@ -14,14 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/hook";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
 
-import {
-  pagesDesk,
-  pagesSettings,
-  pagesMobile,
-} from "./NavItems/navigateLinks";
-import { setLogoutData } from "../redux/userSlice";
+import { pagesDesk, pagesMobile } from "./NavItems/navigateLinks";
+import { getUserData, setLogoutData } from "../redux/userSlice";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -41,6 +37,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  // consultar rol para mostrar o no ruta admin y camiar avatar
+  const userData = useAppSelector(getUserData);
 
   //*funciones para cerra sesión------------------
   const navigate = useNavigate();
@@ -56,25 +54,12 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* ----------------------------start logo desk---------------------- */}
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+
           <Link style={{ textDecoration: "none", color: "white" }} to="/">
-            <Typography
-              variant="h6"
-              noWrap
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-              }}
-            >
-              LOGO
-            </Typography>
+            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           </Link>
-          {/* ----------------------------start logo desk---------------------- */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            {/* ----------------------------start logo desk---------------------- */}
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -159,10 +144,17 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Abrir Opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg?w=2000"
-                />
+                {userData.role!! ? (
+                  <Avatar
+                    alt="avatar"
+                    src="https://img.freepik.com/vector-premium/perfil-hombre-dibujos-animados_18591-58482.jpg?w=2000"
+                  />
+                ) : (
+                  <Avatar
+                    alt="avatar"
+                    src="https://png.pngtree.com/png-vector/20220628/ourlarge/pngtree-user-profile-avatar-vector-admin-png-image_5289693.png"
+                  />
+                )}
               </IconButton>
             </Tooltip>
             {/* --------------start settings menu---------------------- */}
@@ -182,22 +174,54 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {pagesSettings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link
-                    style={{ textDecoration: "none", color: "black" }}
-                    to={setting.linkTo}
-                  >
-                    <Typography textAlign="center">{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
-              ))}
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" onClick={handleLogout}>
-                  Cerrar sesión
-                </Typography>
-              </MenuItem>
+              {userData.role === ""
+                ? [
+                    <MenuItem key="register" onClick={handleCloseUserMenu}>
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="/register"
+                      >
+                        <Typography textAlign="center">Registrarme</Typography>
+                      </Link>
+                    </MenuItem>,
+                    <MenuItem key="login" onClick={handleCloseUserMenu}>
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="/login"
+                      >
+                        <Typography textAlign="center">
+                          Iniciar sesión
+                        </Typography>
+                      </Link>
+                    </MenuItem>,
+                  ]
+                : [
+                    <MenuItem key="profile" onClick={handleCloseUserMenu}>
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        to="/miperfil"
+                      >
+                        <Typography textAlign="center">Mi perfil</Typography>
+                      </Link>
+                    </MenuItem>,
+                    userData.role === "administrador" && (
+                      <MenuItem key="admin" onClick={handleCloseUserMenu}>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          to="/admin"
+                        >
+                          <Typography textAlign="center">Admin</Typography>
+                        </Link>
+                      </MenuItem>
+                    ),
+                    <MenuItem key="logout" onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center" onClick={handleLogout}>
+                        Cerrar sesión
+                      </Typography>
+                    </MenuItem>,
+                  ]}
             </Menu>
+
             {/* --------------end settings menu---------------------- */}
           </Box>
         </Toolbar>

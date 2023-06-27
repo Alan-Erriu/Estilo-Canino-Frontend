@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from './store';
-import { UserDataState } from '../types/user';
-import { DogDataState } from '../types/dog';
+import { UserDataState, UserState } from '../types/user';
 
-interface UserState extends UserDataState {
-    dogs: DogDataState[];
-}
+
+
 
 const initialState: UserState = {
     name: '',
@@ -40,8 +38,10 @@ export const userSlice = createSlice({
         setLogoutData: (state) => {
             state.name = '';
             state.email = '';
+            state.age = '';
             state.userId = '';
             state.authToken = '';
+            state.role = '';
             state.dogs = [];
         },
 
