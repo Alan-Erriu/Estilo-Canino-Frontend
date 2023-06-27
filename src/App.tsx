@@ -5,7 +5,7 @@ import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Turns from "./pages/Turns";
+import Turns from "./pages/Appointment";
 import UserProfile from "./pages/UserProfile";
 import Admin from "./pages/Admin";
 import { ProtectedRoutes } from "./utils/ProtectedRoutes";
@@ -33,6 +33,7 @@ const App = () => {
           </Route>
         </Routes>
       </Provider>
+      {/* </LocalizationProvider> */}
     </BrowserRouter>
   );
 };

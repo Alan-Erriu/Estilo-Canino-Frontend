@@ -3,15 +3,16 @@ import apiClient from "../utils/client";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
 // import { useAppSelector } from "../redux/hook";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setGroomerData } from "../redux/usersTypeGroomerSlice";
 import { setClientData } from "../redux/usersTypeClientSlice";
 import Calendar from "../components/TurnItems/DropDowns/Calendar";
+import SelectHours from "../components/TurnItems/DropDowns/SelectHours";
 
-function BranchOfficeSelector() {
+function Turns() {
   const dispatch = useDispatch();
   //   const dataUser = useAppSelector(getUserData);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,14 +52,18 @@ function BranchOfficeSelector() {
 
         dispatch(setClientData(clients));
         dispatch(setGroomerData(groomers));
+        setIsLoading(false);
       } catch (error) {
         console.warn("El usuario debe iniciar sesión:", error.message);
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
-
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
   return (
     <>
       <div style={{ marginBottom: "16px" }}>
@@ -67,11 +72,18 @@ function BranchOfficeSelector() {
 
       <div style={{ marginTop: "16px" }}>
         <h5>Turnos peluquero seleccionado</h5>
-        {/* Aquí puedes agregar el componente de calendario */}
+
+        <SelectHours />
         <Calendar />
+      </div>
+      <div>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
       </div>
     </>
   );
 }
 
-export default BranchOfficeSelector;
+export default Turns;

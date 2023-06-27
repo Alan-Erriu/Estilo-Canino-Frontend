@@ -1,4 +1,4 @@
-import LoginForm from "../components/RegisterItems/LoginForm";
+import LoginForm from "../components/LoginItems/LoginForm";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../utils/client";
 import { useDispatch } from "react-redux";

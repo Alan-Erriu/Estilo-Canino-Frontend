@@ -1,11 +1,9 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAppSelector } from "../redux/hook";
-import { getUserData } from "../redux/userSlice";
 
 export const ProtectedRoutes = () => {
-  const userData = useAppSelector(getUserData);
+  const userData = localStorage.getItem("token");
 
-  if (!userData.authToken) {
+  if (!userData) {
     return <Navigate to="/" />;
   }
   return <Outlet />;

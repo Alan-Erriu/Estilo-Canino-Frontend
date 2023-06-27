@@ -29,11 +29,13 @@ function ModalEditUser({
         <TextField
           label="Email"
           name="email"
+          type="email"
           value={formValues.email}
           onChange={handleInputChange}
           fullWidth
-          margin="normal"
+          required
         />
+
         <TextField
           label="Edad"
           name="age"

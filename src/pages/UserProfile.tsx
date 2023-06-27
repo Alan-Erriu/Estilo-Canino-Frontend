@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CardDog from "../components/UserProfileIItems/CardDog";
 import Profile from "../components/UserProfileIItems/Profile";
 import Box from "@mui/material/Box";
@@ -12,6 +12,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const dataUser = useAppSelector(getUserData);
 
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,14 +41,18 @@ const UserProfile = () => {
         };
         console.log("user profile");
         dispatch(setUserData(dataUser));
+        setIsLoading(false);
       } catch (error) {
         console.warn("El usuario debe iniciar sesión:", error.message);
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []); // Agrega dataUser.dogs como dependencia
-
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
   return (
     <Box>
       <Profile />
