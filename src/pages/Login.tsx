@@ -14,7 +14,6 @@ const Login = () => {
         password: formData.password,
       };
       await apiClient.post("auth/signin", data).then((res) => {
-        console.log(res.data);
         let user = { userId: res.data.userId, authToken: res.data.token };
         localStorage.setItem("token", user.authToken);
         dispatch(setLoginData(user));

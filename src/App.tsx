@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import { Routes, Route } from "react-router-dom";
-import { store } from "./redux/store";
+import store from "./redux/store";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import Register from "./pages/Register";

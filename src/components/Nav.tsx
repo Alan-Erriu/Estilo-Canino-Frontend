@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 
 import { pagesDesk, pagesMobile } from "./NavItems/navigateLinks";
 import { getUserData, setLogoutData } from "../redux/userSlice";
+import { setLogoutAppointment } from "../redux/appointmentSlice";
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -44,8 +45,10 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleLogout = () => {
+    //limpiamos el local storage y los estados de redux
     localStorage.removeItem("token");
     dispatch(setLogoutData());
+    dispatch(setLogoutAppointment());
     navigate("/login");
   };
 

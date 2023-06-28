@@ -18,6 +18,6 @@ export const userTypeClientSlice = createSlice({
 
 export const { setClientData } = userTypeClientSlice.actions;
 
-export const getClientData = (state: RootState) => state.groomer;
+export const getClientData = (state: RootState) => state.client;
 
 export default userTypeClientSlice.reducer;

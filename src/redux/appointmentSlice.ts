@@ -45,6 +45,19 @@ export const appointmentSlice = createSlice({
         },
         setAvailableSlots: (state, action: PayloadAction<string[]>) => {
             state.availableSlots = action.payload;
+        }, setLogoutAppointment: (state) => {
+            state.currentAppointment = {
+                date: "",
+                month: "",
+                year: "",
+                day: "",
+                time: "",
+                groomer: "",
+                dog: "",
+                client: ""
+            };
+            state.savedAppointments = [];
+            state.availableSlots = [];
         },
     },
 });
@@ -56,7 +69,7 @@ export const {
     setDog,
     setClientId,
     setSavedAppointments,
-    setAvailableSlots,
+    setAvailableSlots, setLogoutAppointment
 } = appointmentSlice.actions;
 
 export const getCurrentAppointment = (state: RootState) =>

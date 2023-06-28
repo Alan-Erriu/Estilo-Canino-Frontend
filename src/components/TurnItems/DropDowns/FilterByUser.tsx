@@ -21,7 +21,6 @@ const FilterByUser = () => {
   const handleGroomerChange = (selectedGroomerId) => {
     setSelectedGroomerId(selectedGroomerId);
     dispatch(setGroomer(selectedGroomerId));
-    console.log(selectedGroomerId);
   };
 
   const handleChange = async (event) => {

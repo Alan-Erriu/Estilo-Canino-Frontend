@@ -14,12 +14,13 @@ import Calendar from "../components/TurnItems/DropDowns/Calendar";
 import { useAppSelector } from "../redux/hook";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
+import SelectClient from "../components/TurnItems/DropDowns/SelectClient";
 
 function Appointment() {
   const dispatch = useDispatch();
+  //obtengo el token del local sotare. previamente se guardo en login
   const tokenLocalStorage = localStorage.getItem("token");
   const dataNewAppointment = useAppSelector(getCurrentAppointment);
-  //   const dataUser = useAppSelector(getUserData);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -27,42 +28,40 @@ function Appointment() {
         const headers = {
           Authorization: tokenLocalStorage,
         };
-
-        const [responseUser, responseDog, responseRoles] = await Promise.all([
-          apiClient.get("user", { headers }),
-          apiClient.get("dog", { headers }),
-          apiClient.get("user/all", { headers }),
-          ,
-        ]);
-
+        //informacion del usuario con el id guardado en el token
+        const responseUser = await apiClient.get("user", { headers });
+        //traemos los perros de la base de datos con el id guardado en el token
+        const responseDog = await apiClient.get("dog", { headers });
+        //todos los usarios
+        const responseRoles = await apiClient.get("user/all", { headers });
         const dataUserFromBack = responseUser.data;
-        const { name, age, email, _id } = dataUserFromBack;
-
+        const { name, age, email, role, _id } = dataUserFromBack;
+        //creamos el objeto user para luego mandarlo a redux, con su rol y perros si es que tiene
         const dataUser = {
           name,
           age,
           email,
-          role:
-            responseRoles.data.find((user) => user.role[0]?.name === "cliente")
-              ?.name || "Usuario",
+          role: role[0]?.name || "Usuario",
           userId: _id,
           authToken: tokenLocalStorage,
           dogs: responseDog.data.dogs,
         };
-
+        //filtramos por rol para ver si es cliente o peluquero
         const clients = responseRoles.data.filter(
           (user) => user.role[0]?.name === "cliente"
         );
+        //filtramos por rol para ver si es cliente o peluquero
         const groomers = responseRoles.data.filter(
           (user) => user.role[0]?.name === "peluquero"
         );
-
+        //creamos un objeto con la fecha de hoy para que los filtros tengan la fecha por defecto actualizad a hoy
         const currentDate = dayjs().format("YYYY-MM-DD HH:mm");
         const [date, time] = currentDate.split(" ");
         const [year, month, day] = date.split("-");
         const dayOfWeek = dayjs().day().toString();
-
+        //seteamos la informacion del usuario en redux con la combinacion de fetchs
         dispatch(setUserData(dataUser));
+        //actualizamos el estado de redux en appointementCurrent (le cargamos por defecto la fecha de hoy para el nuevo turnos)
         dispatch(
           setDateData({
             date: day,
@@ -71,10 +70,11 @@ function Appointment() {
             day: dayOfWeek,
           })
         );
-        dispatch(setClientId(_id));
+        //seteamos todos los clientes de la base de datos a redux
         dispatch(setClientData(clients));
+        //seteamos todos los peluquero al estado de redux
         dispatch(setGroomerData(groomers));
-
+        dataUser.role === "cliente" ? dispatch(setClientId(_id)) : null;
         setIsLoading(false);
       } catch (error) {
         handleFetchError(error);
@@ -90,7 +90,7 @@ function Appointment() {
 
   const createAppointment = async () => {
     try {
-      await apiClient.post("turn/create", {
+      const response = await apiClient.post("turn/create", {
         date: dataNewAppointment.date,
         month: dataNewAppointment.month,
         year: dataNewAppointment.year,
@@ -103,6 +103,9 @@ function Appointment() {
       alert("turno creado con exito");
     } catch (error) {
       console.log(error);
+      if (error.request.response.message === "date and time is in the past")
+        alert("El turno tiene que ser para un horario proximo al actual");
+
       alert("Algo salió mal");
     }
   };
@@ -117,13 +120,13 @@ function Appointment() {
 
   return (
     <>
-      <div style={{ marginBottom: "16px" }}>
+      <div style={{ marginBottom: "16px", display: "flex" }}>
+        <SelectClient />
         <FilterByUser />
       </div>
 
       <div style={{ marginTop: "16px" }}>
         <h5>Turnos peluquero seleccionado</h5>
-
         <Calendar />
       </div>
       <div>

@@ -1,5 +1,5 @@
 export interface ClientDataState {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     age: number;
