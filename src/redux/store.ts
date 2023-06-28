@@ -2,17 +2,16 @@ import { configureStore } from '@reduxjs/toolkit'
 import { userSlice } from './userSlice'
 import { userTypeGroomerSlice } from './usersTypeGroomerSlice'
 import { userTypeClientSlice } from './usersTypeClientSlice'
-// import { dogSlice } from './dogSlice'
-// import { turnSlice } from './turnSlice'
+import { appointmentSlice } from './appointmentSlice'
 
 
 export const store = configureStore({
     reducer: {
         user: userSlice.reducer,
         groomer: userTypeGroomerSlice.reducer,
-        client: userTypeClientSlice.reducer
-        // dog: dogSlice.reducer,
-        // turn: turnSlice.reducer
+        client: userTypeClientSlice.reducer,
+        appointment: appointmentSlice.reducer
+
     }
 })
 

@@ -1,4 +1,5 @@
-export interface appointmentAvailable {
+export interface AppointmentAvailable {
+    appointmentAvailable: any
     date?: string
     month?: string
     year?: string
@@ -17,4 +18,9 @@ export interface NewAppointment {
     dog?: string
     client?: string
 
+}
+export interface AppointmentState {
+
+    appointmentAvailable: string[];
+    newAppointment: string[];
 }

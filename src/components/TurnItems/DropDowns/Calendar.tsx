@@ -1,26 +1,28 @@
-import { useState } from "react";
-import { Card, CardContent, Grid, TextField } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Card, CardContent, Grid } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import SelectHours from "./SelectHours";
+import SelecDog from "./SelecDog";
+import { useAppDispatch } from "../../../redux/hook";
+import { setDateData } from "../../../redux/appointmentSlice";
 
-const Calendar = () => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+export const Calendar = () => {
+  const [selectedDate, setSelectedDate] = useState(dayjs().startOf("day"));
+  const dispatch = useAppDispatch();
 
   const handleDateChange = (date) => {
     // Obtener el día, mes, año y día de la semana de la fecha seleccionada
-    const day = date.date();
-    const month = date.month() + 1; // Los meses en dayjs comienzan desde 0
-    const year = date.year();
-    const dayOfWeek = date.day();
+    const currentDate = date.date().toString();
+    const month = (date.month() + 1).toString(); // Los meses en dayjs comienzan desde 0
+    const year = date.year().toString();
+    const day = date.day().toString();
 
     // Actualizar los valores en el estado
     setSelectedDate(date);
 
-    // Hacer algo con los valores (por ejemplo, imprimirlos en la consola)
-    console.log("Date:", day);
-    console.log("Month:", month);
-    console.log("Year:", year);
-    console.log("Day:", dayOfWeek);
+    // Llamar a la acción setDateData con los 4 campos
+    dispatch(setDateData({ date: currentDate, month, year, day }));
   };
 
   return (
@@ -32,15 +34,10 @@ const Calendar = () => {
           </div>
 
           <Grid direction="row" container spacing={2} my={2.5}>
-            <Grid item xs={12} sm={12} xl={3} lg={3}>
-              <TextField
-                label="Fecha"
-                value={selectedDate.format("YYYY-MM-DD")}
-                InputProps={{
-                  readOnly: true,
-                }}
-              />
+            <Grid item xs={12} sm={12} xl={12} lg={12}>
               <DatePicker value={selectedDate} onChange={handleDateChange} />
+              <SelectHours />
+              <SelecDog />
             </Grid>
           </Grid>
         </CardContent>

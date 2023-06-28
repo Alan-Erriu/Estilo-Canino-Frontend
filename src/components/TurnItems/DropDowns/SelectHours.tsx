@@ -1,35 +1,30 @@
+import { useState } from "react";
 import { MenuItem, Select } from "@mui/material";
-import { useAppSelector } from "../../../redux/hook";
-import { getUserData } from "../../../redux/userSlice";
-import { getGroomerData } from "../../../redux/usersTypeGroomerSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { getAvailableSlots, setTime } from "../../../redux/appointmentSlice";
 
 const SelectHours = () => {
-  //recupero datos del usuario logeado/
-  const userData = useAppSelector(getUserData);
-  //recupero todos los usuarios tipo peluqueros
-  // const allGroomersData = useAppSelector(getGroomerData);
-
-  const availableSlots = [
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-  ];
+  const hoursAvailable = useAppSelector(getAvailableSlots);
+  const [selectedTime, setSelectedTime] = useState("");
+  const dispatch = useAppDispatch();
+  const handleTimeChange = (event) => {
+    const selectedValue = event.target.value;
+    setSelectedTime(selectedValue);
+    dispatch(setTime(selectedValue));
+  };
 
   return (
     <Select
       variant="outlined"
       displayEmpty
-      defaultValue=""
+      value={selectedTime}
+      onChange={handleTimeChange}
       renderValue={(value) => (value ? value : "Horarios disponibles")}
     >
       <MenuItem value="" disabled>
         Horarios disponibles
       </MenuItem>
-      {availableSlots.map((groomer, i) => (
+      {hoursAvailable.map((groomer, i) => (
         <MenuItem key={i} value={groomer}>
           {groomer}
         </MenuItem>

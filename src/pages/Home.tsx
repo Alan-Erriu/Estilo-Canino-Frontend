@@ -20,8 +20,8 @@ const Home = () => {
             xl: "70px",
           }}
         >
-          Sabemos lo importante que es para vos tu mascota, por eso te brindamos
-          el mejor servicio a vos y a tu mejor amigo
+          Sabemos lo importante que es tu mascota, por eso te brindamos el mejor
+          servicio a vos y a tu mejor amigo
         </Typography>
         <img
           style={{ height: "500px", width: "800px", marginTop: "6rem" }}

@@ -1,5 +1,5 @@
 export interface GroomerDataState {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     age: number;
