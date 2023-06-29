@@ -207,16 +207,49 @@ function ResponsiveAppBar() {
                         <Typography textAlign="center">Mi perfil</Typography>
                       </Link>
                     </MenuItem>,
-                    userData.role === "administrador" && (
-                      <MenuItem key="admin" onClick={handleCloseUserMenu}>
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to="/admin"
-                        >
-                          <Typography textAlign="center">Admin</Typography>
-                        </Link>
-                      </MenuItem>
-                    ),
+                    userData.role === "administrador"
+                      ? [
+                          <MenuItem
+                            key="adminTurnos"
+                            onClick={handleCloseUserMenu}
+                          >
+                            <Link
+                              style={{ textDecoration: "none", color: "black" }}
+                              to="/admin/turnos"
+                            >
+                              <Typography textAlign="center">
+                                Admin Turnos
+                              </Typography>
+                            </Link>
+                          </MenuItem>,
+                          <MenuItem
+                            key="adminNuevos"
+                            onClick={handleCloseUserMenu}
+                          >
+                            <Link
+                              style={{ textDecoration: "none", color: "black" }}
+                              to="/admin/crearusuario"
+                            >
+                              <Typography textAlign="center">
+                                Admin Crear Peluqueros
+                              </Typography>
+                            </Link>
+                          </MenuItem>,
+                          <MenuItem
+                            key="adminUsuarios"
+                            onClick={handleCloseUserMenu}
+                          >
+                            <Link
+                              style={{ textDecoration: "none", color: "black" }}
+                              to="/admin/usuarios"
+                            >
+                              <Typography textAlign="center">
+                                Admin Borrar Usuarios
+                              </Typography>
+                            </Link>
+                          </MenuItem>,
+                        ]
+                      : null,
                     <MenuItem key="logout" onClick={handleCloseUserMenu}>
                       <Typography textAlign="center" onClick={handleLogout}>
                         Cerrar sesión

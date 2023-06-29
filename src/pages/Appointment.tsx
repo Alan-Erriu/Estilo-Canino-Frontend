@@ -103,7 +103,7 @@ function Appointment() {
       alert("turno creado con exito");
     } catch (error) {
       console.log(error);
-      if (error.request.response.message === "date and time is in the past")
+      if (error.request.response === "date and time is in the past")
         alert("El turno tiene que ser para un horario proximo al actual");
 
       alert("Algo salió mal");

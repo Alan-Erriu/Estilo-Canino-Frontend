@@ -10,7 +10,7 @@ import {
 } from "../../../redux/appointmentSlice";
 import apiClient from "../../../utils/client";
 
-const FilterByUser = () => {
+const FilterByGroomer = () => {
   const userData = useAppSelector(getUserData);
   const newAppointment = useAppSelector(getCurrentAppointment);
   const allGroomersData = useAppSelector(getGroomerData);
@@ -101,4 +101,4 @@ const FilterByUser = () => {
   );
 };
 
-export default FilterByUser;
+export default FilterByGroomer;

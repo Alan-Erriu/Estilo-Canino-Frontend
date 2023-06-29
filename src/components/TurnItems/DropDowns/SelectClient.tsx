@@ -32,32 +32,29 @@ const SelectClient = () => {
     return client ? client.name : "";
   };
 
-  if (userData.role !== "administrador") {
+  if (userData.role !== "administrador" && userData.role !== "peluquero") {
     return null; // Si el rol no es "administrador", no renderizar nada
   }
 
   return (
-    <div>
-      <Select
-        variant="outlined"
-        displayEmpty
-        value={selectedClientId}
-        onChange={handleChange}
-        renderValue={(value) =>
-          value ? getClientName(value) : "Seleccione un cliente"
-        }
-      >
-        <MenuItem value="" disabled>
-          Seleccione un cliente
+    <Select
+      variant="outlined"
+      displayEmpty
+      value={selectedClientId}
+      onChange={handleChange}
+      renderValue={(value) =>
+        value ? getClientName(value) : "Seleccione un cliente"
+      }
+    >
+      <MenuItem value="" disabled>
+        Seleccione un cliente
+      </MenuItem>
+      {allUserTypeClients.map((client) => (
+        <MenuItem key={client._id} value={client._id}>
+          {client.name}
         </MenuItem>
-        {allUserTypeClients.map((client) => (
-          <MenuItem key={client._id} value={client._id}>
-            {client.name}
-          </MenuItem>
-        ))}
-      </Select>
-      <button onClick={() => console.log(allUserTypeClients)}>test</button>
-    </div>
+      ))}
+    </Select>
   );
 };
 
