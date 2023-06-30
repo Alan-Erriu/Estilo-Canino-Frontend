@@ -1,4 +1,3 @@
-import FilterByUser from "../components/TurnItems/DropDowns/FilterByUser";
 import apiClient from "../utils/client";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
@@ -14,7 +13,6 @@ import Calendar from "../components/TurnItems/DropDowns/Calendar";
 import { useAppSelector } from "../redux/hook";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
-import SelectClient from "../components/TurnItems/DropDowns/SelectClient";
 
 function Appointment() {
   const dispatch = useDispatch();
@@ -103,10 +101,10 @@ function Appointment() {
       alert("turno creado con exito");
     } catch (error) {
       console.log(error);
-      if (error.request.response === "date and time is in the past")
-        alert("El turno tiene que ser para un horario proximo al actual");
-
-      alert("Algo salió mal");
+      if (
+        error.response.data.message === "Selected date and time is in the past"
+      )
+        alert("La fecha ingresada ya paso, ingrese una fecha valida");
     }
   };
 
@@ -120,13 +118,9 @@ function Appointment() {
 
   return (
     <>
-      <div style={{ marginBottom: "16px", display: "flex" }}>
-        <SelectClient />
-        <FilterByUser />
-      </div>
+      <div style={{ marginBottom: "16px", display: "flex" }}></div>
 
       <div style={{ marginTop: "16px" }}>
-        <h5>Turnos peluquero seleccionado</h5>
         <Calendar />
       </div>
       <div>
@@ -169,7 +163,12 @@ function Appointment() {
           <br />
           {dataNewAppointment.dog}
         </p>
-        <Button onClick={createAppointment} variant="contained" color="inherit">
+        <Button
+          onClick={createAppointment}
+          type="submit"
+          variant="contained"
+          sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}
+        >
           Confirmar Turno
         </Button>
       </div>

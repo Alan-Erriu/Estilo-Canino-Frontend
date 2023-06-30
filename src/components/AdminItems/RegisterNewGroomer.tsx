@@ -28,8 +28,21 @@ const RegisterNewGroomer: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
-        Registrar un nuevo usuario peluquero
+      <Typography
+        sx={{ mt: "8rem", mb: "4rem" }}
+        textAlign={"center"}
+        fontFamily={"fantasy"}
+        variant="h3"
+        color="white"
+        fontSize={{
+          xs: "70px",
+          sm: "50px",
+          md: "50px",
+          lg: "60px",
+          xl: "70px",
+        }}
+      >
+        Registrar un nuevo peluquero
       </Typography>
       <form onSubmit={handleFormSubmit}>
         <Grid container spacing={2}>
@@ -77,8 +90,13 @@ const RegisterNewGroomer: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
-              Register
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}
+              fullWidth
+            >
+              Registrar
             </Button>
           </Grid>
         </Grid>

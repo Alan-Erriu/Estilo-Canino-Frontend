@@ -17,6 +17,7 @@ const SelectHours = () => {
 
   return (
     <Select
+      sx={{ width: "250px", backgroundColor: "white" }}
       variant="outlined"
       displayEmpty
       value={selectedTime}

@@ -64,17 +64,27 @@ function CardDog({ dog }: CardDogProps) {
   };
 
   return (
-    <Card sx={{ display: "flex" }}>
+    <Card
+      sx={{
+        display: "flex",
+        width: { xs: "300px", md: "450px" },
+        height: { xs: "300px", md: "300px" },
+      }}
+    >
       <CardMedia
         component="img"
-        sx={{ width: 151 }}
+        sx={{
+          width: { xs: 150, md: 200 },
+          height: { xs: 250, md: 250 },
+          mt: { xs: "1rem" },
+        }}
         image="https://img.freepik.com/vector-premium/caricatura-divertido-perrito-sentado_29190-6858.jpg?w=2000"
         alt="Live from space album cover"
       />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            {dog.name}
+            Nombre: {dog.name.charAt(0).toUpperCase() + dog.name.slice(1)}
           </Typography>
 
           <Typography
@@ -82,29 +92,30 @@ function CardDog({ dog }: CardDogProps) {
             color="text.secondary"
             component="div"
           >
-            {dog.breed}
+            Raza:{dog.breed.charAt(0).toUpperCase() + dog.breed.slice(1)}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            {dog.age}
+            Edad: {dog.age}
           </Typography>
         </CardContent>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
-          <IconButton aria-label="previous" onClick={modal}>
-            Eliminar
-          </IconButton>
-          <IconButton
-            aria-label="play/pause"
-            onClick={() => console.log("sacar un turno")}
-          >
-            Cortar pelo
-          </IconButton>
-          <IconButton aria-label="play/pause" onClick={openEditModalHandler}>
-            Editar perro
-          </IconButton>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            pl: 1,
+            pb: 1,
+            flexDirection: { xs: "column", md: "row" },
+            mb: 4,
+            ml: { md: 5 },
+          }}
+        >
+          <IconButton onClick={modal}>Borrar</IconButton>
+
+          <IconButton onClick={openEditModalHandler}>Editar</IconButton>
         </Box>
       </Box>
 

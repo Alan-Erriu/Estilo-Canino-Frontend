@@ -28,7 +28,20 @@ const RegisterForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography
+        sx={{ mt: "8rem", mb: "4rem" }}
+        textAlign={"center"}
+        fontFamily={"fantasy"}
+        variant="h3"
+        color="white"
+        fontSize={{
+          xs: "70px",
+          sm: "50px",
+          md: "50px",
+          lg: "60px",
+          xl: "70px",
+        }}
+      >
         Registrarse
       </Typography>
       <form onSubmit={handleFormSubmit}>

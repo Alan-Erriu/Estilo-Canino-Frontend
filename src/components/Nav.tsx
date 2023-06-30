@@ -53,7 +53,12 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar sx={{ backgroundColor: "#3D0E03" }} position="static">
+    <AppBar
+      sx={{
+        /* backgroundColor: "#3D0E03"*/ backgroundColor: "rgba(0, 51, 153, 1)",
+      }}
+      position="static"
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* ----------------------------start logo desk---------------------- */}

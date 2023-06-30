@@ -34,6 +34,7 @@ const SelecDog = () => {
   if (userData.role !== "administrador" && userData.role !== "peluquero") {
     return (
       <Select
+        sx={{ width: "250px", backgroundColor: "white" }}
         variant="outlined"
         displayEmpty
         value={selectedDogId}

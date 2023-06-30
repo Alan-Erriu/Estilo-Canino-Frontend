@@ -4,6 +4,7 @@ import { useAppSelector } from "../redux/hook";
 import { getDogs, getUserData } from "../redux/userSlice";
 import apiClient from "../utils/client";
 import CardAppointment from "../components/TurnItems/CardAppointment";
+import GroomerAppointments from "../components/MyappointmentItems/GroomerAppointments";
 
 const MyAppointments = () => {
   const [selectedDogId, setSelecteselectedDogId] = useState("");
@@ -58,7 +59,11 @@ const MyAppointments = () => {
       console.log(error);
     }
   };
-
+  //si el usuario es distinto de cliente se muestra este comoponente
+  if (userData.role !== "cliente") {
+    return <GroomerAppointments />;
+  }
+  //si el usario es cliente se muestra este componente
   return (
     <div>
       role: {userData.role}

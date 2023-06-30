@@ -23,7 +23,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" align="center" gutterBottom>
+      <Typography
+        sx={{ mt: "8rem", mb: "4rem" }}
+        textAlign={"center"}
+        fontFamily={"fantasy"}
+        variant="h3"
+        color="white"
+        fontSize={{
+          xs: "50px",
+          sm: "50px",
+          md: "50px",
+          lg: "60px",
+          xl: "70px",
+        }}
+      >
         Iniciar Sesión
       </Typography>
       <form onSubmit={handleFormSubmit}>
@@ -51,7 +64,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}
+              fullWidth
+            >
               Sign In
             </Button>
           </Grid>

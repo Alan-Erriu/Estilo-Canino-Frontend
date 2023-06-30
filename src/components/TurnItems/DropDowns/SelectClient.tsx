@@ -38,6 +38,7 @@ const SelectClient = () => {
 
   return (
     <Select
+      sx={{ width: "250px", backgroundColor: "white" }}
       variant="outlined"
       displayEmpty
       value={selectedClientId}

@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Card, CardContent, Grid } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import SelectHours from "./SelectHours";
 import SelecDog from "./SelecDog";
 import { useAppDispatch } from "../../../redux/hook";
 import { setDateData } from "../../../redux/appointmentSlice";
+import FilterByUser from "./FilterByUser";
+import SelectClient from "./SelectClient";
 
 export const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf("day"));
@@ -27,19 +29,38 @@ export const Calendar = () => {
 
   return (
     <div>
-      <Card elevation={1}>
-        <CardContent>
-          <div className="text-start">
-            <h1>Date Picker</h1>
-          </div>
-
-          <Grid direction="row" container spacing={2} my={2.5}>
-            <Grid item xs={12} sm={12} xl={12} lg={12}>
-              <DatePicker value={selectedDate} onChange={handleDateChange} />
-              <SelectHours />
-              <SelecDog />
-            </Grid>
-          </Grid>
+      <Card sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}>
+        <Typography
+          fontSize={{
+            xs: "10px",
+            sm: "20px",
+            md: "20px",
+            lg: "30px",
+            xl: "30px",
+          }}
+          textAlign="center"
+          variant="h3"
+          color="white"
+        >
+          Todos los campos deben estar completos, recuerde primero seleccionar
+          el peluquero
+        </Typography>
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <SelectClient />
+          <FilterByUser />
+          <DatePicker
+            sx={{ width: "250px", backgroundColor: "white" }}
+            value={selectedDate}
+            onChange={handleDateChange}
+          />
+          <SelectHours />
+          <SelecDog />
         </CardContent>
       </Card>
     </div>
