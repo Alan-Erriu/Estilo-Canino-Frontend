@@ -9,9 +9,8 @@ const SelecDog = () => {
   const dispatch = useAppDispatch();
   //pregunto quien es el usuario y cargo los perros correspodientes a estado userslice--role-cliente
   const userData = useAppSelector(getUserData);
-  //consulto el estado del turno que se va creando, para luego ser despachado
 
-  //traigo los perros del usuario logea-- pensando para el rol cliente
+  //traigo los perros del usuario logeado -- pensando para el rol cliente
   const allDogUser = useAppSelector(getDogs);
   //control de los inputs
   const [selectedDogId, setSelectedDogId] = useState("");
@@ -32,7 +31,7 @@ const SelecDog = () => {
     return dog ? dog.name : "";
   };
 
-  if (userData.role !== "administrador") {
+  if (userData.role !== "administrador" && userData.role !== "peluquero") {
     return (
       <Select
         variant="outlined"

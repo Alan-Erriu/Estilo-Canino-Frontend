@@ -33,7 +33,7 @@ const SelectClient = () => {
   };
 
   if (userData.role !== "administrador" && userData.role !== "peluquero") {
-    return null; // Si el rol no es "administrador", no renderizar nada
+    return null; // Si el rol no es "administrador" o peluquero, no renderizar nada
   }
 
   return (

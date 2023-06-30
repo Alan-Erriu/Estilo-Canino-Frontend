@@ -2,10 +2,12 @@
 
 export const pagesDesk = [
   { name: "Mi perfil", linkTo: "/miperfil" },
-  { name: "Nuevo Turno", linkTo: "/nuevoturno" },
+  { name: "Nuevo turno", linkTo: "/nuevoturno" },
+  { name: "Ver mis turnos", linkTo: "/misturnos" },
 ];
 export const pagesMobile = [
   { name: "Mi perfil", linkTo: "/miperfil" },
-  { name: "Nuevo Turno", linkTo: "/nuevoturno" },
+  { name: "Nuevo turno", linkTo: "/nuevoturno" },
+  { name: "Ver mis turnos", linkTo: "/misturnos" },
 ];
 export const pagesSettings = [{ name: "Mi perfil", linkTo: "/miperfil" }];

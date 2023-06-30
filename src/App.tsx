@@ -13,6 +13,7 @@ import { AdminRoute } from "./utils/AdminRoute";
 import { BrowserRouter } from "react-router-dom";
 import AdminCreateNewGroomer from "./pages/AdminCreateNewGroomer";
 import AdminDeleteUsers from "./pages/AdminDeleteUsers";
+import MyAppointments from "./pages/MyAppointments";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route element={<ProtectedRoutes />}>
             <Route path="/miperfil" element={<UserProfile />} />
             <Route path="/nuevoturno" element={<Turns />} />
+            <Route path="/misturnos" element={<MyAppointments />} />
           </Route>
           {/* ------------------------------------------------- */}
           {/* Solo el usuario con el rol "administrador" podrá acceder a la ruta admin */}

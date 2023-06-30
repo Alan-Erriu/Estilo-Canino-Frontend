@@ -1,3 +1,5 @@
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
 import { Box } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
@@ -5,7 +7,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LanguageIcon from "@mui/icons-material/Language";
 import { Button } from "@mui/material";
 
-const CardAppointment = ({ appointment, deleteAppointment }) => {
+export const CardUsers = ({ user: { name, age, email } }) => {
   return (
     <Box
       sx={{
@@ -15,6 +17,24 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
         width: { xs: "100%", sm: "100%", md: "90%" },
       }}
     >
+      <Card
+        sx={{
+          width: { xs: "90%", sm: "70%", md: "400px" },
+          height: 400,
+          mt: "5rem",
+          backgroundColor: "#0f203b",
+          boxShadow: " 0 0 2px 6px",
+          color: "black",
+        }}
+      >
+        <CardMedia
+          className="imgProject"
+          component="img"
+          height="100%"
+          //   image="https://img.freepik.com/vector-premium/caricatura-divertido-perrito-sentado_29190-6858.jpg?w=2000"
+          alt="project"
+        />
+      </Card>
       <Box
         sx={{
           position: "relative",
@@ -23,11 +43,12 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
           mt: "2rem",
           ml: { md: "4rem" },
           justifyContent: "center",
+
           textAlign: "start",
         }}
       >
         <Typography fontSize={"30px"} variant="h3" color="white">
-          Peluquero: {appointment.groomer?.name}
+          {name}
         </Typography>
 
         <Typography
@@ -36,21 +57,23 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
           color="white"
           fontSize="20px"
         >
-          Cliente: {appointment.client?.name}
+          {age}
         </Typography>
         <Typography
           sx={{ mt: "1rem", color: "green" }}
           variant="h4"
           color="white"
           fontSize="20px"
-        ></Typography>
+        >
+          asd
+        </Typography>
         <Typography
           sx={{ mt: "1rem" }}
           variant="h4"
           color="white"
           fontSize="20px"
         >
-          fecha: {appointment.date}/{appointment.month}/{appointment.year}
+          {email}
         </Typography>
         <CardActions
           disableSpacing
@@ -65,20 +88,14 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
             variant="contained"
             color="success"
             sx={{ boxShadow: " 0 0 0 4px", color: "black" }}
-            onClick={() => deleteAppointment(appointment)}
           >
             <Box sx={{ display: "flex", gap: "5px" }}>
               <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  alignItems: "center",
-                }}
+                sx={{ display: "flex", gap: "5px", alignItems: "center" }}
                 fontSize={{ xs: "12px", sm: "14px", md: "16px" }}
-                color="white"
+                color={"white"}
               >
                 <LanguageIcon />
-                Eliminar Turno
               </Typography>
             </Box>
           </Button>
@@ -87,20 +104,14 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
             variant="contained"
             color="success"
             sx={{ boxShadow: " 0 0 0 4px", color: "black" }}
-            onClick={() => console.log(appointment)}
           >
             <Box>
               <Typography
-                sx={{
-                  display: "flex",
-                  gap: "5px",
-                  alignItems: "center",
-                }}
+                sx={{ display: "flex", gap: "5px", alignItems: "center" }}
                 fontSize={{ xs: "12px", sm: "14px", md: "16px" }}
-                color="white"
+                color={"white"}
               >
                 <GitHubIcon />
-                {appointment.time}
               </Typography>
             </Box>
           </Button>
@@ -109,5 +120,4 @@ const CardAppointment = ({ appointment, deleteAppointment }) => {
     </Box>
   );
 };
-
-export default CardAppointment;
+export default CardUsers;

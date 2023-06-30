@@ -4,6 +4,9 @@
 
 ## Estructura del proyecto
 
+En la carpeta pages, se encuentra todas las paginas/rutas y en components se encuentra una carpeta para cada una de estas rutas
+EJ: ruta /home tiene su propia carpeta HomeItems y asi con las demas.
+
 ```
 .
 
@@ -11,7 +14,7 @@
 │   ├── assets
 │   │   └──
 │   ├── components
-│   │   └── ... ├──... itemsPages
+│   │   └── ... ... itemsPages
 │   ├── pages
 │   │   └── ...
 │   ├── redux
@@ -19,7 +22,7 @@
 │   ├── types
 │   │   └── ...
 │   ├── utils
-│   │   └── ... variantes de entorno
+│   │   └── ... ... variantes de entorno
 │   ├── App.tsx
 │   ├── index.css
 │   ├── main.tsx

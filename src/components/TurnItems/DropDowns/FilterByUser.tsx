@@ -16,7 +16,9 @@ const FilterByUser = () => {
   const allGroomersData = useAppSelector(getGroomerData);
   const dispatch = useAppDispatch();
 
-  const [selectedGroomerId, setSelectedGroomerId] = useState("");
+  const [selectedGroomerId, setSelectedGroomerId] = useState(
+    userData.role === "peluquero" ? userData.userId : ""
+  );
 
   const handleGroomerChange = (selectedGroomerId) => {
     setSelectedGroomerId(selectedGroomerId);
@@ -51,6 +53,28 @@ const FilterByUser = () => {
     return groomer ? groomer.name : "";
   };
 
+  const fetchDefaultAppointmentData = async () => {
+    try {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      const day = currentDate.getDate();
+
+      const responseAppointmentAvailable = await apiClient.post("turn", {
+        date: day,
+        month,
+        year,
+        day,
+        groomerId: selectedGroomerId,
+      });
+
+      dispatch(
+        setAvailableSlots(responseAppointmentAvailable.data.availableSlots)
+      );
+    } catch (error) {
+      console.log("Error fetching default appointment data:", error);
+    }
+  };
   useEffect(() => {
     const fetchAppointmentData = async () => {
       try {
@@ -69,6 +93,12 @@ const FilterByUser = () => {
             groomerId: newAppointment.groomer,
           });
         }
+        if (userData.role === "peluquero") {
+          //si el rol es peluquero no va a poder ver el filtro de peluqueros, entonces no se va a disparar handleChange
+          //entonces llamo a la funcion que carga sus datos, con su propio id de usuario logeado y la fecha de hoy por defecto
+          dispatch(setGroomer(userData.userId));
+          fetchDefaultAppointmentData();
+        }
       } catch (error) {
         console.log("Error fetching appointment data:", error);
       }
@@ -77,7 +107,7 @@ const FilterByUser = () => {
     fetchAppointmentData();
   }, [newAppointment]);
   if (userData.role !== "administrador" && userData.role !== "cliente") {
-    return null; // Si el rol no es "administrador", no renderizar nada
+    return null; // Si el rol no es "administrador" ni cliente, no renderizar nada
   }
   return (
     <Select

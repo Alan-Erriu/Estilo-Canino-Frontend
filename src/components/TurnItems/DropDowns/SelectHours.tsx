@@ -4,8 +4,10 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hook";
 import { getAvailableSlots, setTime } from "../../../redux/appointmentSlice";
 
 const SelectHours = () => {
+  //horas disponibles del peluuero en redux
   const hoursAvailable = useAppSelector(getAvailableSlots);
   const [selectedTime, setSelectedTime] = useState("");
+
   const dispatch = useAppDispatch();
   const handleTimeChange = (event) => {
     const selectedValue = event.target.value;

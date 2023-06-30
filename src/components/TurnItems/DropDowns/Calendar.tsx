@@ -14,7 +14,7 @@ export const Calendar = () => {
   const handleDateChange = (date) => {
     // Obtener el día, mes, año y día de la semana de la fecha seleccionada
     const currentDate = date.date().toString();
-    const month = (date.month() + 1).toString(); // Los meses en dayjs comienzan desde 0
+    const month = (date.month() + 1).toString().padStart(2, "0"); // Los meses en dayjs comienzan desde 0
     const year = date.year().toString();
     const day = date.day().toString();
 
