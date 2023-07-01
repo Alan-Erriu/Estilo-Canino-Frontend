@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { MenuItem, Select } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../../redux/hook";
-import { getDogs, getUserData } from "../../../redux/userSlice";
-import { getCurrentAppointment, setDog } from "../../../redux/appointmentSlice";
+import { getUserData } from "../../../redux/userSlice";
+import { setDog } from "../../../redux/appointmentSlice";
 import apiClient from "../../../utils/client";
 import { getDogsByOwnerId, getOwnerId, setDogs } from "../../../redux/dogSlice";
 
@@ -12,7 +12,7 @@ const SelectDogAdminRole = () => {
   const userData = useAppSelector(getUserData);
 
   //consulto el estado del turno que se va creando, para luego ser despachado
-  const currentAppoinment = useAppSelector(getCurrentAppointment);
+
   //traigo los perros del usuario logea-- pensando para el rol cliente
   const allDogUser = useAppSelector(getDogsByOwnerId);
   //control de los inputs
@@ -21,7 +21,6 @@ const SelectDogAdminRole = () => {
   const handleDogChange = (selectedDogId) => {
     setSelectedDogId(selectedDogId);
     dispatch(setDog(selectedDogId));
-    console.log(selectedDogId);
   };
 
   const handleChange = (event) => {
@@ -40,9 +39,13 @@ const SelectDogAdminRole = () => {
     const fetchDogsByOwnerId = async () => {
       const token = userData.authToken;
       try {
-        const response = await apiClient.post("dog/alldog", {
-          ownerId: ownerId,
-        });
+        const response = await apiClient.post(
+          "dog/alldog",
+          {
+            ownerId: ownerId,
+          },
+          { headers: { Authorization: token } }
+        );
         const { dogs } = response.data;
         // Manejar los perros devueltos
         dispatch(setDogs(dogs));
@@ -64,7 +67,7 @@ const SelectDogAdminRole = () => {
       value={selectedDogId}
       onChange={handleChange}
       renderValue={(value) =>
-        value ? getDogName(value) : "Seleccione un perro solo admin"
+        value ? getDogName(value) : "Seleccione un perro"
       }
     >
       <MenuItem value="" disabled>

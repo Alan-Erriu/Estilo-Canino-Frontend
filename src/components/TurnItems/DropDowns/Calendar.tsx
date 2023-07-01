@@ -15,7 +15,7 @@ export const Calendar = () => {
 
   const handleDateChange = (date) => {
     // Obtener el día, mes, año y día de la semana de la fecha seleccionada
-    const currentDate = date.date().toString();
+    const currentDate = date.date().toString().padStart(2, "0");
     const month = (date.month() + 1).toString().padStart(2, "0"); // Los meses en dayjs comienzan desde 0
     const year = date.year().toString();
     const day = date.day().toString();
@@ -32,7 +32,7 @@ export const Calendar = () => {
       <Card sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}>
         <Typography
           fontSize={{
-            xs: "10px",
+            xs: "15px",
             sm: "20px",
             md: "20px",
             lg: "30px",
@@ -41,6 +41,7 @@ export const Calendar = () => {
           textAlign="center"
           variant="h3"
           color="white"
+          sx={{ mt: 2 }}
         >
           Todos los campos deben estar completos, recuerde primero seleccionar
           el peluquero
@@ -50,6 +51,8 @@ export const Calendar = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: { xs: "column", sm: "column", md: "row" },
+            gap: { xs: 2, sm: 2, md: 2 },
           }}
         >
           <SelectClient />

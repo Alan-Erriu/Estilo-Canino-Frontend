@@ -28,7 +28,7 @@ function CardDog({ dog }: CardDogProps) {
           ...userData,
           dogs: updatedDogs,
         };
-        console.log(res);
+
         dispatch(setUserData(updatedUserData));
       });
     } catch (error) {

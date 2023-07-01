@@ -36,9 +36,7 @@ const Register: React.FC = () => {
     };
 
     try {
-      await apiClient.post("auth/signup", data).then((res) => {
-        console.log(res.data);
-
+      await apiClient.post("auth/signup", data).then(() => {
         alert("Usuario registrado");
         navigate("/login");
       });

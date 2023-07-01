@@ -17,6 +17,10 @@ import {
   getClientData,
   setClientData,
 } from "../../../redux/usersTypeClientSlice";
+import CardContent from "@mui/material/CardContent";
+import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+import Swal from "sweetalert2";
 
 const TableUsers = () => {
   const dispatch = useAppDispatch();
@@ -37,7 +41,7 @@ const TableUsers = () => {
       });
       if (response.data.message === "User deleted successfully") {
         alert("Usuario borrado exitosamente");
-        console.log(response);
+
         if (userType === "groomer") {
           const updatedGroomers = allGroomerData.groomers.filter(
             (groomer) => groomer._id !== userId
@@ -70,53 +74,109 @@ const TableUsers = () => {
     }
   }, [userType, allGroomerData.groomers, allClientData.client]);
 
+  const confirmDeleteUser = (userId: string) => {
+    Swal.fire({
+      title: "¿Está seguro?",
+      text: "¡Esta acción es irremediable!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, borrar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteUserById(userId);
+      }
+    });
+  };
+
   return (
     <Box>
-      <Button
-        variant="contained"
-        onClick={() => handleUserTypeChange("groomer")}
+      <Box sx={{ mt: { xs: "3rem" } }}>
+        <Card sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}>
+          <Typography
+            fontSize={{
+              xs: "15px",
+              sm: "20px",
+              md: "20px",
+              lg: "30px",
+              xl: "30px",
+            }}
+            textAlign="center"
+            variant="h3"
+            color="white"
+            sx={{ mt: 2 }}
+          >
+            Selecione clientes o peluqueros para filtrar a los usuarios
+          </Typography>
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: { xs: "column", sm: "column", md: "row" },
+              gap: { xs: 2, sm: 2, md: 2 },
+            }}
+          >
+            <Button
+              sx={{ width: "250px", backgroundColor: "white", color: "black" }}
+              variant="contained"
+              onClick={() => handleUserTypeChange("groomer")}
+            >
+              Mostrar Peluqueros
+            </Button>
+            <Button
+              sx={{ width: "250px", backgroundColor: "white", color: "black" }}
+              variant="contained"
+              onClick={() => handleUserTypeChange("client")}
+            >
+              Mostrar Clientes
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mt: "4rem",
+          mx: "2rem",
+        }}
       >
-        Mostrar Peluquero
-      </Button>
-      <Button
-        variant="contained"
-        onClick={() => handleUserTypeChange("client")}
-      >
-        Mostrar Clientes
-      </Button>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Nombre </TableCell>
-              <TableCell align="right">Edad</TableCell>
-              <TableCell align="right">Email</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {usersFilters.map((user, i) => (
-              <TableRow
-                key={i}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {user.name}
-                </TableCell>
-                <TableCell align="right">{user.age}</TableCell>
-                <TableCell align="right">{user.email}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    variant="contained"
-                    onClick={() => deleteUserById(user._id)}
-                  >
-                    Borrar
-                  </Button>
-                </TableCell>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Nombre </TableCell>
+                <TableCell align="right">Edad</TableCell>
+                <TableCell align="right">Email</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {usersFilters.map((user, i) => (
+                <TableRow
+                  key={i}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {user.name}
+                  </TableCell>
+                  <TableCell align="right">{user.age}</TableCell>
+                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="center">
+                    <Button
+                      variant="contained"
+                      onClick={() => confirmDeleteUser(user._id)}
+                    >
+                      Borrar
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </Box>
   );
 };

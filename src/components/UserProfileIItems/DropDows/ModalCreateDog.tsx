@@ -49,7 +49,6 @@ function DropDown() {
       // Realizar la solicitud para agregar el perro
       const response = await apiClient.post("dog", data, { headers });
       const newDog = response.data;
-      console.log(newDog.dog);
 
       // Actualizar el estado de Redux con el nuevo perro, conservando los anteriores
       const updatedUserData = {

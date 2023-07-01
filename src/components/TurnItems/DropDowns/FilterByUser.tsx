@@ -15,7 +15,7 @@ const FilterByUser = () => {
   const newAppointment = useAppSelector(getCurrentAppointment);
   const allGroomersData = useAppSelector(getGroomerData);
   const dispatch = useAppDispatch();
-
+  const tokenLocalStorage = localStorage.getItem("token");
   const [selectedGroomerId, setSelectedGroomerId] = useState(
     userData.role === "peluquero" ? userData.userId : ""
   );
@@ -30,13 +30,17 @@ const FilterByUser = () => {
     if (selectedGroomerId) {
       try {
         handleGroomerChange(selectedGroomerId);
-        const responseAppointmentAvailable = await apiClient.post("turn", {
-          date: newAppointment.date,
-          month: newAppointment.month,
-          year: newAppointment.year,
-          day: newAppointment.day,
-          groomerId: selectedGroomerId,
-        });
+        const responseAppointmentAvailable = await apiClient.post(
+          "turn",
+          {
+            date: newAppointment.date,
+            month: newAppointment.month,
+            year: newAppointment.year,
+            day: newAppointment.day,
+            groomerId: selectedGroomerId,
+          },
+          { headers: { Authorization: tokenLocalStorage } }
+        );
         dispatch(
           setAvailableSlots(responseAppointmentAvailable.data.availableSlots)
         );
@@ -60,13 +64,17 @@ const FilterByUser = () => {
       const month = currentDate.getMonth() + 1;
       const day = currentDate.getDate();
 
-      const responseAppointmentAvailable = await apiClient.post("turn", {
-        date: day,
-        month,
-        year,
-        day,
-        groomerId: selectedGroomerId,
-      });
+      const responseAppointmentAvailable = await apiClient.post(
+        "turn",
+        {
+          date: day,
+          month,
+          year,
+          day,
+          groomerId: selectedGroomerId,
+        },
+        { headers: { Authorization: tokenLocalStorage } }
+      );
 
       dispatch(
         setAvailableSlots(responseAppointmentAvailable.data.availableSlots)
@@ -85,13 +93,17 @@ const FilterByUser = () => {
           newAppointment.day &&
           newAppointment.groomer
         ) {
-          await apiClient.post("turn", {
-            date: newAppointment.date,
-            month: newAppointment.month,
-            year: newAppointment.year,
-            day: newAppointment.day,
-            groomerId: newAppointment.groomer,
-          });
+          await apiClient.post(
+            "turn",
+            {
+              date: newAppointment.date,
+              month: newAppointment.month,
+              year: newAppointment.year,
+              day: newAppointment.day,
+              groomerId: newAppointment.groomer,
+            },
+            { headers: { Authorization: tokenLocalStorage } }
+          );
         }
         if (userData.role === "peluquero") {
           //si el rol es peluquero no va a poder ver el filtro de peluqueros, entonces no se va a disparar handleChange

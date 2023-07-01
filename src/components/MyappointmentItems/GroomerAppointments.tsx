@@ -6,6 +6,10 @@ import apiClient from "../../utils/client";
 import { getUserData } from "../../redux/userSlice";
 import { useAppSelector } from "../../redux/hook";
 import CardAppointment from "../TurnItems/CardAppointment";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
 
 const GroomerAppointments = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf("day"));
@@ -24,7 +28,7 @@ const GroomerAppointments = () => {
 
   const handleFilterClick = async () => {
     const dateData = {
-      date: selectedDate.date().toString(),
+      date: selectedDate.date().toString().padStart(2, "0"),
       month: (selectedDate.month() + 1).toString().padStart(2, "0"),
       year: selectedDate.year().toString(),
       day: selectedDate.day().toString(),
@@ -39,7 +43,9 @@ const GroomerAppointments = () => {
     };
 
     try {
-      const responseAppointment = await apiClient.post("/turn/alls", data);
+      const responseAppointment = await apiClient.post("/turn/alls", data, {
+        headers: { Authorization: userData.authToken },
+      });
       setAppointments(responseAppointment.data);
     } catch (error) {
       console.log(error);
@@ -49,7 +55,10 @@ const GroomerAppointments = () => {
   const deleteAppointment = async (appointment) => {
     try {
       const responseAppointment = await apiClient.delete(
-        `turn/${appointment._id}`
+        `turn/${appointment._id}`,
+        {
+          headers: { Authorization: userData.authToken },
+        }
       );
       if (responseAppointment.data.message === "Turn deleted successfully") {
         alert("Turno borrado exitosamente");
@@ -67,24 +76,48 @@ const GroomerAppointments = () => {
   };
 
   return (
-    <div>
-      role: {userData.role}
-      <DatePicker value={selectedDate} onChange={handleDateChange} />
-      {/* <Select
-        variant="outlined"
-        displayEmpty
-        value={selectedGroomerId}
-        onChange={handleGroomerChange}
-        renderValue={(value) =>
-          value ? getGroomerName(value) : "Seleccione un peluquero"
-        }
-      ></Select> */}
-      <Button variant="contained" onClick={handleFilterClick}>
-        filtrar
-      </Button>
-      <Button onClick={() => console.log(selectedDate.month().toString())}>
-        test
-      </Button>
+    <Box>
+      <Box sx={{ mt: { xs: "3rem" } }}>
+        <Card sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}>
+          <Typography
+            fontSize={{
+              xs: "15px",
+              sm: "20px",
+              md: "20px",
+              lg: "30px",
+              xl: "30px",
+            }}
+            textAlign="center"
+            variant="h3"
+            color="white"
+            sx={{ mt: 2 }}
+          >
+            Seleccione una fecha para ver sus turnos tomados
+          </Typography>
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: { xs: "column", sm: "column", md: "row" },
+              gap: { xs: 2, sm: 2, md: 2 },
+            }}
+          >
+            <DatePicker
+              sx={{ width: "250px", backgroundColor: "white" }}
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+            <Button
+              sx={{ width: "250px", backgroundColor: "white", color: "black" }}
+              variant="contained"
+              onClick={handleFilterClick}
+            >
+              filtrar
+            </Button>
+          </CardContent>
+        </Card>
+      </Box>
       {appointments.map((appointment) => (
         <CardAppointment
           key={appointment._id}
@@ -92,7 +125,7 @@ const GroomerAppointments = () => {
           deleteAppointment={deleteAppointment}
         />
       ))}
-    </div>
+    </Box>
   );
 };
 

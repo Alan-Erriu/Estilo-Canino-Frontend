@@ -39,7 +39,7 @@ const Home = () => {
               variant="h1"
               color="white"
               fontSize={{
-                xs: "30px",
+                xs: "25px",
                 sm: "50px",
                 md: "50px",
                 lg: "60px",
@@ -56,21 +56,21 @@ const Home = () => {
             component="img"
             sx={{
               height: {
-                xs: "400px",
+                xs: "300px",
                 sm: "500px",
                 md: "500px",
                 lg: "800px",
                 xl: "600px",
               },
               width: {
-                xs: "300px",
+                xs: "250px",
                 sm: "600px",
                 md: "500px",
                 lg: "800px",
                 xl: "600px",
               },
               marginTop: "6rem",
-              ml: { xl: "20rem", xs: "5rem" },
+              ml: { xs: "100px", xl: "20rem" },
             }}
             image="https://www.pedigree.com.ar/cdn-cgi/image/format%3Dauto%2Cq%3D90/sites/g/files/fnmzdf1506/files/2022-07/hero-default-dog_0.png"
             alt="Dog"

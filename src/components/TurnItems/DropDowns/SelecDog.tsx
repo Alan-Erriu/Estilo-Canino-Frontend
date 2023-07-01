@@ -18,7 +18,6 @@ const SelecDog = () => {
   const handleDogChange = (selectedDogId) => {
     setSelectedDogId(selectedDogId);
     dispatch(setDog(selectedDogId));
-    console.log(selectedDogId);
   };
 
   const handleChange = (event) => {

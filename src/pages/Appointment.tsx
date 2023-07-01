@@ -1,9 +1,10 @@
 import apiClient from "../utils/client";
 import { useDispatch } from "react-redux";
-import { setUserData } from "../redux/userSlice";
+import { getDogs, getUserData, setUserData } from "../redux/userSlice";
 import { useEffect, useState } from "react";
-import { setGroomerData } from "../redux/usersTypeGroomerSlice";
-import { setClientData } from "../redux/usersTypeClientSlice";
+import { getGroomerData, setGroomerData } from "../redux/usersTypeGroomerSlice";
+import { getClientData, setClientData } from "../redux/usersTypeClientSlice";
+import Box from "@mui/material/Box";
 import {
   getCurrentAppointment,
   setClientId,
@@ -13,6 +14,11 @@ import Calendar from "../components/TurnItems/DropDowns/Calendar";
 import { useAppSelector } from "../redux/hook";
 import dayjs from "dayjs";
 import Button from "@mui/material/Button";
+import CardActions from "@mui/material/CardActions";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { getDogsByOwnerId } from "../redux/dogSlice";
 
 function Appointment() {
   const dispatch = useDispatch();
@@ -75,43 +81,66 @@ function Appointment() {
         dataUser.role === "cliente" ? dispatch(setClientId(_id)) : null;
         setIsLoading(false);
       } catch (error) {
-        handleFetchError(error);
+        console.log(error);
       }
     };
 
     fetchData();
   }, []);
 
-  const headers = {
-    Authorization: tokenLocalStorage,
-  };
-
   const createAppointment = async () => {
     try {
-      const response = await apiClient.post("turn/create", {
-        date: dataNewAppointment.date,
-        month: dataNewAppointment.month,
-        year: dataNewAppointment.year,
-        day: dataNewAppointment.day,
-        time: dataNewAppointment.time,
-        groomer: dataNewAppointment.groomer,
-        dog: dataNewAppointment.dog,
-        client: dataNewAppointment.client,
-      });
-      alert("turno creado con exito");
+      const response = await apiClient.post(
+        "turn/create",
+        {
+          date: dataNewAppointment.date,
+          month: dataNewAppointment.month,
+          year: dataNewAppointment.year,
+          day: dataNewAppointment.day,
+          time: dataNewAppointment.time,
+          groomer: dataNewAppointment.groomer,
+          dog: dataNewAppointment.dog,
+          client: dataNewAppointment.client,
+        },
+        { headers: { Authorization: tokenLocalStorage } }
+      );
+      alert("Turno creado con éxito");
     } catch (error) {
       console.log(error);
       if (
         error.response.data.message === "Selected date and time is in the past"
-      )
-        alert("La fecha ingresada ya paso, ingrese una fecha valida");
+      ) {
+        alert("La fecha ingresada ya pasó, ingrese una fecha válida");
+      } else if (
+        error.response.data.message ===
+        "Turn already exists for the given date and time"
+      ) {
+        alert("Ya existe un turno para ese perro y ese peluquero en esa fecha");
+      }
     }
   };
 
-  const handleFetchError = (error) => {
-    console.warn("El usuario debe iniciar sesión:", error.message);
-    setIsLoading(false);
-  };
+  //busco los nombre por id para mostralos en la carta de crear turnos
+  const allClients = useAppSelector(getClientData);
+  const allGroomers = useAppSelector(getGroomerData);
+  const allDogs = useAppSelector(getDogsByOwnerId);
+  const dataUser = useAppSelector(getUserData);
+  const dogsUser = useAppSelector(getDogs);
+
+  const clientName = allClients.client.find(
+    (client) => client._id === dataNewAppointment.client
+  )?.name;
+  const groomerName = allGroomers.groomers.find(
+    (groomer) => groomer._id === dataNewAppointment.groomer
+  )?.name;
+  let dogName = "";
+  if (dataUser.role !== "cliente") {
+    dogName = allDogs.find((dog) => dog._id === dataNewAppointment.dog)?.name;
+  } else {
+    // Obtén el nombre del perro de dataUser.dogs
+    dogName = dogsUser.find((dog) => dog._id === dataNewAppointment.dog)?.name;
+  }
+
   if (isLoading) {
     return <div>Cargando...</div>;
   }
@@ -122,55 +151,49 @@ function Appointment() {
 
       <div style={{ marginTop: "16px" }}>
         <Calendar />
-      </div>
-      <div>
-        <p>
-          time <br />
-          {dataNewAppointment.time}
-        </p>
-        <p>
-          date
-          <br />
-          {dataNewAppointment.date}
-        </p>
-        <p>
-          day
-          <br />
-          {dataNewAppointment.day}
-        </p>
-        <p>
-          month
-          <br />
-          {dataNewAppointment.month}
-        </p>
-        <p>
-          year
-          <br />
-          {dataNewAppointment.year}
-        </p>
-        <p>
-          groomer
-          <br />
-          {dataNewAppointment.groomer}
-        </p>
-        <p>
-          client
-          <br />
-          {dataNewAppointment.client}
-        </p>
-        <p>
-          dog
-          <br />
-          {dataNewAppointment.dog}
-        </p>
-        <Button
-          onClick={createAppointment}
-          type="submit"
-          variant="contained"
-          sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}
-        >
-          Confirmar Turno
-        </Button>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Card sx={{ minWidth: 275, width: "400px", mt: "10rem" }}>
+            <CardContent>
+              <Typography variant="h5" component="div" sx={{ mb: "1rem" }}>
+                Creando Nuevo Turno
+              </Typography>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Fecha: {dataNewAppointment.date}/{dataNewAppointment.month}/
+                {dataNewAppointment.year}
+              </Typography>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                Hora: {dataNewAppointment.time}
+              </Typography>
+
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                Peluquero: {groomerName}
+              </Typography>
+              <Typography sx={{ mb: 1 }} variant="body2">
+                Cliente: {clientName}
+              </Typography>
+              <Typography variant="body2">Perro: {dogName}</Typography>
+            </CardContent>
+            <CardActions>
+              <Button
+                onClick={createAppointment}
+                type="submit"
+                variant="contained"
+                sx={{ backgroundColor: "rgba(0, 51, 153, 1)" }}
+                fullWidth
+              >
+                Confirmar Turno
+              </Button>
+            </CardActions>
+          </Card>
+        </Box>
       </div>
     </>
   );

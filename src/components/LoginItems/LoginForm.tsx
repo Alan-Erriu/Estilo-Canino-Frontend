@@ -24,7 +24,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   return (
     <Container maxWidth="sm">
       <Typography
-        sx={{ mt: "8rem", mb: "4rem" }}
+        sx={{ mt: { xs: "3rem", md: "8rem" }, mb: "4rem" }}
         textAlign={"center"}
         fontFamily={"fantasy"}
         variant="h3"

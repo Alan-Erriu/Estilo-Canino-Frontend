@@ -39,7 +39,7 @@ const UserProfile = () => {
           authToken: tokenLocalStorage,
           dogs: responseDog.data.dogs,
         };
-        console.log("user profile");
+
         dispatch(setUserData(dataUser));
         setIsLoading(false);
       } catch (error) {
