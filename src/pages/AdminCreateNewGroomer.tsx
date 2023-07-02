@@ -72,7 +72,7 @@ const AdminCreateNewGroomer = () => {
     };
 
     try {
-      await apiClient.post("auth/signup", data).then((res) => {
+      await apiClient.post("auth/signup", data).then(() => {
         alert(`El peluquero ${name} fue creado`);
       });
     } catch (error) {

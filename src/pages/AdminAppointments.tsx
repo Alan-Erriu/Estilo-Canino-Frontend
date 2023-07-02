@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Button, Select, MenuItem } from "@mui/material";
+import { Button, Select, MenuItem, Grid } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { getGroomerData, setGroomerData } from "../redux/usersTypeGroomerSlice";
 import apiClient from "../utils/client";
@@ -58,7 +58,7 @@ const Admin = () => {
         );
         //creamos un objeto con la fecha de hoy para que los filtros tengan la fecha por defecto actualizad a hoy
         const currentDate = dayjs().format("YYYY-MM-DD HH:mm");
-        const [date, time] = currentDate.split(" ");
+        const [date] = currentDate.split(" ");
         const [year, month, day] = date.split("-");
         const dayOfWeek = dayjs().day().toString();
         //seteamos la informacion del usuario en redux con la combinacion de fetchs
@@ -136,7 +136,8 @@ const Admin = () => {
   const deleteAppointment = async (appointment) => {
     try {
       const responseAppointment = await apiClient.delete(
-        `turn/${appointment._id}`
+        `turn/${appointment._id}`,
+        { headers }
       );
       if (responseAppointment.data.message === "Turn deleted successfully") {
         alert("Turno borrado exitosamente");
@@ -217,14 +218,29 @@ const Admin = () => {
           </CardContent>
         </Card>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        {appointments.map((appointment) => (
-          <CardAppointment
-            key={appointment._id}
-            appointment={appointment}
-            deleteAppointment={deleteAppointment}
-          />
-        ))}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          mx: "2rem",
+          flexDirection: { xs: "column", md: "row" },
+        }}
+      >
+        <Grid
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 0, sm: 10, md: 2, lg: 4, xl: 3 }}
+        >
+          {appointments.map((appointment, i) => (
+            <Grid key={i} item xs={12} sm={6} md={6} lg={4} xl={3}>
+              <CardAppointment
+                key={appointment._id}
+                appointment={appointment}
+                deleteAppointment={deleteAppointment}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </Box>
   );

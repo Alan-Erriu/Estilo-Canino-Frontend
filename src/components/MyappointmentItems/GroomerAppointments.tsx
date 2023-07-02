@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { Button, Select } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import apiClient from "../../utils/client";
 import { getUserData } from "../../redux/userSlice";
 import { useAppSelector } from "../../redux/hook";
@@ -13,14 +13,10 @@ import Box from "@mui/material/Box";
 
 const GroomerAppointments = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs().startOf("day"));
-  const [selectedGroomerId, setSelectedGroomerId] = useState("");
+
   const [appointments, setAppointments] = useState([]);
 
   const userData = useAppSelector(getUserData);
-
-  const handleGroomerChange = (event) => {
-    setSelectedGroomerId(event.target.value);
-  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -118,13 +114,30 @@ const GroomerAppointments = () => {
           </CardContent>
         </Card>
       </Box>
-      {appointments.map((appointment) => (
-        <CardAppointment
-          key={appointment._id}
-          appointment={appointment}
-          deleteAppointment={deleteAppointment}
-        />
-      ))}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 3,
+          mx: "2rem",
+          flexDirection: { xs: "column", md: "row" },
+        }}
+      >
+        <Grid
+          container
+          rowSpacing={2}
+          columnSpacing={{ xs: 0, sm: 10, md: 2, lg: 4, xl: 3 }}
+        >
+          {appointments.map((appointment, i) => (
+            <Grid key={i} item xs={12} sm={6} md={6} lg={4} xl={3}>
+              <CardAppointment
+                key={appointment._id}
+                appointment={appointment}
+                deleteAppointment={deleteAppointment}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 };

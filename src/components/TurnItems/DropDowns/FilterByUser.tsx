@@ -93,7 +93,7 @@ const FilterByUser = () => {
           newAppointment.day &&
           newAppointment.groomer
         ) {
-          await apiClient.post(
+          const responseAppointmentAvailable = await apiClient.post(
             "turn",
             {
               date: newAppointment.date,
@@ -103,6 +103,9 @@ const FilterByUser = () => {
               groomerId: newAppointment.groomer,
             },
             { headers: { Authorization: tokenLocalStorage } }
+          );
+          dispatch(
+            setAvailableSlots(responseAppointmentAvailable.data.availableSlots)
           );
         }
         if (userData.role === "peluquero") {

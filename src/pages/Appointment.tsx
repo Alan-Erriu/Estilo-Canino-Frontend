@@ -60,7 +60,7 @@ function Appointment() {
         );
         //creamos un objeto con la fecha de hoy para que los filtros tengan la fecha por defecto actualizad a hoy
         const currentDate = dayjs().format("YYYY-MM-DD HH:mm");
-        const [date, time] = currentDate.split(" ");
+        const [date] = currentDate.split(" ");
         const [year, month, day] = date.split("-");
         const dayOfWeek = dayjs().day().toString();
         //seteamos la informacion del usuario en redux con la combinacion de fetchs
@@ -90,7 +90,7 @@ function Appointment() {
 
   const createAppointment = async () => {
     try {
-      const response = await apiClient.post(
+      await apiClient.post(
         "turn/create",
         {
           date: dataNewAppointment.date,

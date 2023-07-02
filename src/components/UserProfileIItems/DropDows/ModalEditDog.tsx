@@ -34,7 +34,7 @@ function ModalEditDog({ dog, open, onClose }: EditDogModalProps) {
 
       await apiClient
         .put(`dog/${dog._id}`, updatedDog, { headers })
-        .then((res) => {
+        .then(() => {
           const updatedDogs = userData.dogs.map((d) => {
             if (d._id === dog._id) {
               return updatedDog;

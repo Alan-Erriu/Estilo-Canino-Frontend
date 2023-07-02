@@ -5,7 +5,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 const CardAppointment = ({ appointment, deleteAppointment }) => {
   return (
-    <Card sx={{ minWidth: 275, width: "400px", mt: "10rem" }}>
+    <Card
+      sx={{
+        minWidth: 275,
+        width: { xs: "300px", md: "400px" },
+        mt: { xs: "1rem", md: "10rem" },
+      }}
+    >
       <CardContent>
         <Typography variant="h5" component="div" sx={{ mb: "1rem" }}>
           Turno tomado

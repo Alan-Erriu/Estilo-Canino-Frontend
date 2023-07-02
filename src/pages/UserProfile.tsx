@@ -61,8 +61,9 @@ const UserProfile = () => {
           display: "flex",
           gap: 2,
           mt: "8rem",
-          mx: "4rem",
-          flexDirection: "column",
+          mx: { md: "4rem" },
+          ml: { xs: "2rem", md: "3rem" },
+          flexDirection: { xs: "column", md: "row" },
         }}
       >
         {dataUser.dogs.map((dog: DogDataState, i: number) => (

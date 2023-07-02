@@ -105,7 +105,7 @@ function ResponsiveAppBar() {
               <MenuItem onClick={handleCloseNavMenu}>
                 <Link
                   style={{ textDecoration: "none", color: "black" }}
-                  to={"/nuevo turno"}
+                  to={"/nuevoturno"}
                 >
                   <Typography textAlign="center">Nuevo turno</Typography>
                 </Link>

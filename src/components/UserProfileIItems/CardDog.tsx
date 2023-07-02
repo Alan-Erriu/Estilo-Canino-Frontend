@@ -22,7 +22,7 @@ function CardDog({ dog }: CardDogProps) {
       const headers = {
         Authorization: userData.authToken,
       };
-      await apiClient.delete(`dog/${dog._id}`, { headers }).then((res) => {
+      await apiClient.delete(`dog/${dog._id}`, { headers }).then(() => {
         const updatedDogs = userData.dogs.filter((d) => d._id !== dog._id);
         const updatedUserData = {
           ...userData,

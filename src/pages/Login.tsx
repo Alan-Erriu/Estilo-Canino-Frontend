@@ -14,8 +14,14 @@ const Login = () => {
         password: formData.password,
       };
       await apiClient.post("auth/signin", data).then((res) => {
-        let user = { userId: res.data.userId, authToken: res.data.token };
+        let user = {
+          userId: res.data.userId,
+          authToken: res.data.token,
+          role: res.data.role[0].name,
+        };
         localStorage.setItem("token", user.authToken);
+        localStorage.setItem("role", user.role);
+
         dispatch(setLoginData(user));
 
         alert("iniciaste sesion");
