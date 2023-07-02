@@ -18,7 +18,7 @@ const Home = () => {
 
         // Solicitud de datos del usuario logueado
         const responseUser = await apiClient.get("user", { headers });
-
+        const responseDog = await apiClient.get("dog", { headers });
         const dataUserFromBack = responseUser.data;
 
         const { name, age, email, role, _id } = dataUserFromBack;
@@ -30,6 +30,7 @@ const Home = () => {
           role: role[0]?.name || "Usuario",
           userId: _id,
           authToken: tokenLocalStorage,
+          dogs: responseDog.data.dogs,
         };
 
         dispatch(setUserData(dataUser));
